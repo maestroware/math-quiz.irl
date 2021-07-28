@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Calculate the solution!</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+    <h4 id="p1n"></h4>  Score:  <span id="p1s"> 0;</span>
+    <h4 id="p2n"></h4>  Score:  <span id="p2s"> 0;</span>
+
+    <div class="container">
+        <center>
+            <h2 style="color: white;">Calculate the solution!</h2>
+            <!-- <h3 id="player_question" style="color:lightgreen;">Question Turn - 2</h3> -->
+            <h3 id="player_answer" style="color:lightgreen;">Answer Turn - 1</h3>
+            <div id="output" class="col-lg-6"><h5 id="word_display"></h5></div><br><br>
+            <label id="label">Send your equation(complex only) <b style="color: greenyellow;">Try sending a complex equation (number * number, not number x number)</b></label><br>
+            <input type="number" class="form-content" id="no1" placeholder="No. 1"><br>
+            <input type="number" class="form-content" id="no2" placeholder="No. 2"><br><br><br>
+            <button onclick="send()" class="btn btn-success" style="width:30%;">Send</button>
+        </center>
+    </div>
+</body>
+<script>
+    
+p1n = localStorage.getItem("firstperson")
+p2n = localStorage.getItem("secondperson")
+p1s = 0;
+p2s = 0;
+
+document.getElementById("p1n").innerHTML = p1n + ";";
+document.getElementById("p2n").innerHTML = p2n + ";";
+function send() {
+    no1 = document.getElementById("no1").value;
+    no2 = document.getElementById("no2").value;
+    answer = no1*no2;
+    // document.getElementById("player_question").innerHTML = p1n + " asks, what is " + no1 + " x " + no2 + "?"
+    // document.getElementById("no1").style.visibility = "hidden";
+    // document.getElementById("no2").style.visibility = "hidden";
+    // document.getElementById("label").style.visibility = "hidden";
+    qt = "<h4 id='word_display'> Q." + no1 +" x " + no2+"</h4>"
+    ib = "<br>Answer : <input type='text' id='ibc'>"
+    cb = "<br><br><button class='btn btn-info' onclick='check()'>Check</button>"
+    row = qt + ib + cb;
+    document.getElementById("output").innerHTML = row;
+    document.getElementById("no1").value = "";
+    document.getElementById("no2").value = "";
+}
+qt = "player2";
+at = "player1";
+function check() {
+    ibc = document.getElementById("ibc").value
+
+    if(answer == ibc){
+        if(at=="player1"){
+            p1s = p1s + 1;
+            document.getElementById("p1s").innerHTML = p1s + ";";
+        }
+        else{
+            p2s = p2s + 1;
+            document.getElementById("p2s").innerHTML = p2s + ";";
+        }
+    }
+    if(at=="player1"){
+        at="player2"
+        document.getElementById("player_answer").innerHTML = "Answer Turn - " +  p2n;
+    }
+    else{
+        at="player1"
+        document.getElementById("player_answer").innerHTML = "Answer Turn - " +  p1n;
+    }
+    document.getElementById("output").innerHTML = "";
+}
+</script>
+</html>
